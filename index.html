@@ -68,10 +68,17 @@
             justify-content: space-between;
         }
 
-        header img {
-            height: 70px;
+        .brand-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
             margin-bottom: 5px;
-            filter: drop-shadow(0 0 12px rgba(253, 185, 19, 0.6));
+        }
+
+        .brand-header img {
+            height: 55px;
+            filter: drop-shadow(0 0 10px rgba(253, 185, 19, 0.6));
         }
 
         h1 {
@@ -162,7 +169,7 @@
             animation: rollInAdvanced 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
 
-        /* İNDİRİLECEK KUSURSUZ KART (CAPTURE AREA) */
+        /* İNDİRİLECEK KART (CAPTURE AREA) */
         #captureArea {
             background: linear-gradient(145deg, #121824, #070a12);
             border: 3px solid var(--gold);
@@ -197,15 +204,16 @@
         .card-header h2 {
             color: var(--gold);
             margin: 0;
-            font-size: 16px;
+            font-size: 15px;
             text-transform: uppercase;
         }
 
         .ucl-logo-small {
-            height: 28px;
+            height: 32px;
+            filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
         }
 
-        /* Şık Tablo Tasarımı */
+        /* Tablo Stili */
         table {
             width: 100%;
             border-collapse: separate;
@@ -297,14 +305,17 @@
     <!-- Üst Kayan Yazı -->
     <div class="ticker-wrap">
         <div class="ticker">
-            🔴🟡 DURSUN ÖZBEK TRANSFERLER NEREDE?? • SABRIMIZ TAŞIYOR  DURSUN ÖZBEK İSTİFA 🟡🔴
+            🔴🟡 DURSUN ÖZBEK TRANSFERLER NEREDE?? • ŞAMPİYONLAR LİGİ YENİ FORMAT KURA ODASI • HEDEF 25 • CİMBOM DÜNYAYA HÜKMEDİYOR 🟡🔴
         </div>
     </div>
 
     <div class="container">
         <div class="main-content">
             <header>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Galatasaray_Sports_Club_Logo.svg/1200px-Galatasaray_Sports_Club_Logo.svg.png" alt="GS Logo">
+                <div class="brand-header">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Galatasaray_Sports_Club_Logo.svg/1200px-Galatasaray_Sports_Club_Logo.svg.png" alt="GS Logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/UEFA_Champions_Stitching.svg/1024px-UEFA_Champions_Stitching.svg.png" alt="UCL Logo">
+                </div>
                 <h1>Galatasaray Kura Odası</h1>
                 <div class="room-tag">2026/2027 Sezonu Resmi Simülasyonu</div>
             </header>
@@ -327,6 +338,7 @@
                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Galatasaray_Sports_Club_Logo.svg/1200px-Galatasaray_Sports_Club_Logo.svg.png" alt="GS">
                         <h2>Galatasaray UCL Rakipleri</h2>
                     </div>
+                    <!-- UCL Logosu Kartın Sağ Üst Köşesinde -->
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/UEFA_Champions_Stitching.svg/1024px-UEFA_Champions_Stitching.svg.png" alt="UCL" class="ucl-logo-small">
                 </div>
                 <table>
@@ -427,22 +439,27 @@
 
     function saveAsImage() {
         const captureElement = document.getElementById('captureArea');
-
-        html2canvas(captureElement, {
-            scale: 2,
-            useCORS: true,
-            backgroundColor: '#0b0f19'
-        }).then(canvas => {
-            canvas.toBlob(function(blob) {
-                let link = document.createElement('a');
-                link.download = 'gshd_galatasaray_ucl_kura.png';
-                link.href = URL.createObjectURL(blob);
-                link.click();
-                setTimeout(() => URL.revokeObjectURL(link.href), 1000);
-            }, 'image/png');
-        }).catch(err => {
-            alert('Görsel kaydedilemedi: ' + err);
-        });
+        
+        setTimeout(() => {
+            html2canvas(captureElement, {
+                scale: 2,
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: '#121824',
+                windowWidth: captureElement.scrollWidth,
+                windowHeight: captureElement.scrollHeight
+            }).then(canvas => {
+                canvas.toBlob(function(blob) {
+                    let link = document.createElement('a');
+                    link.download = 'gshd_galatasaray_ucl_kura.png';
+                    link.href = URL.createObjectURL(blob);
+                    link.click();
+                    setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+                }, 'image/png');
+            }).catch(err => {
+                alert('Görsel kaydedilemedi: ' + err);
+            });
+        }, 150);
     }
 </script>
 
