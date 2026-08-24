@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GSHD - Galatasaray UCL Kura Odası 2026/2027</title>
+    <!-- html2canvas kütüphanesi -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --gs-red: #a30000;
+            --gs-yellow: #fdb913;
+            --bg-color: #0b0f19;
+            --card-bg: #151c2c;
+            --text-color: #f8fafc;
+            --gold: #ffd700;
+        }
+        
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Üst Kayan Yazı Alanı (Ticker) */
+        .ticker-wrap {
+            width: 100%;
+            background: linear-gradient(90deg, var(--gs-red), #500);
+            border-bottom: 2px solid var(--gs-yellow);
+            color: var(--gs-yellow);
+            font-weight: bold;
+            font-size: 14px;
+            overflow: hidden;
+            white-space: nowrap;
+            box-sizing: border-box;
+            padding: 8px 0;
+            box-shadow: 0 4px 10px rgba(163,0,0,0.5);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .ticker {
+            display: inline-block;
+            animation: ticker 18s linear infinite;
+        }
+
+        @keyframes ticker {
+            0% { transform: translate3d(100vw, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
+        .container {
+            max-width: 650px;
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .main-content {
+            width: 100%;
+        }
+
+        header img {
+            height: 75px;
+            margin-bottom: 5px;
+            filter: drop-shadow(0 0 12px rgba(253, 185, 19, 0.6));
+        }
+
+        h1 {
+            color: var(--gs-yellow);
+            font-size: 22px;
+            margin: 0 0 5px 0;
+            text-transform: uppercase;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .room-tag {
+            background: rgba(163, 0, 0, 0.4);
+            border: 1px solid var(--gs-yellow);
+            color: var(--gs-yellow);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        /* Kontroller */
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        button {
+            background: linear-gradient(45deg, var(--gs-red), #5a0000);
+            color: white;
+            border: 2px solid var(--gs-yellow);
+            padding: 15px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(163,0,0,0.4);
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, var(--gs-yellow), #d49700);
+            color: black;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-save {
+            background: linear-gradient(45deg, #16a34a, #0d5c2b) !important;
+            border-color: #4ade80 !important;
+            color: white !important;
+        }
+        .btn-save:hover {
+            background: linear-gradient(45deg, #15803d, #09401e) !important;
+        }
+
+        /* Top Yuvarlanma Alanı */
+        #ballAnimationArea {
+            height: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ucl-ball {
+            width: 50px;
+            height: 50px;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/UEFA_Champions_Stitching.svg/1024px-UEFA_Champions_Stitching.svg.png') center/cover no-repeat;
+            border-radius: 50%;
+            position: absolute;
+            left: -70px;
+            box-shadow: 0 0 15px rgba(253, 185, 19, 0.6);
+        }
+
+        @keyframes rollIn {
+            0% { left: -70px; transform: rotate(0deg); }
+            40% { left: calc(50% - 25px); transform: rotate(720deg); }
+            70% { left: calc(50% - 25px); transform: rotate(720deg) scale(1.1); }
+            100% { left: calc(50% - 25px); transform: rotate(1080deg) scale(0); opacity: 0; }
+        }
+
+        .rolling {
+            animation: rollIn 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        /* Sonuç Tablosu Alanı */
+        #captureArea {
+            background: linear-gradient(145deg, #151c2c, #090d16);
+            border: 3px solid var(--gs-yellow);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 5px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+            text-align: left;
+            display: none;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        #captureArea.show {
+            display: block;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .header-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid var(--gs-red);
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+        }
+
+        .header-box h2 {
+            color: var(--gs-yellow);
+            margin: 0;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+
+        .table-logo {
+            height: 35px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 6px;
+        }
+
+        tr {
+            background: rgba(255,255,255,0.04);
+            border-radius: 6px;
+            opacity: 0;
+            transform: translateX(-15px);
+            animation: slideIn 0.4s forwards;
+        }
+
+        @keyframes slideIn {
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        tr:nth-child(1) { animation-delay: 0.05s; }
+        tr:nth-child(2) { animation-delay: 0.1s; }
+        tr:nth-child(3) { animation-delay: 0.15s; }
+        tr:nth-child(4) { animation-delay: 0.2s; }
+        tr:nth-child(5) { animation-delay: 0.25s; }
+        tr:nth-child(6) { animation-delay: 0.3s; }
+        tr:nth-child(7) { animation-delay: 0.35s; }
+        tr:nth-child(8) { animation-delay: 0.4s; }
+
+        th, td {
+            padding: 10px 8px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        th {
+            color: var(--gs-yellow);
+            font-size: 11px;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(253, 185, 19, 0.2);
+        }
+
+        td:first-child { border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
+        td:last-child { border-top-right-radius: 6px; border-bottom-right-radius: 6px; }
+
+        .td-pot { font-weight: bold; color: var(--gold); width: 60px; }
+        .td-team { font-weight: 600; }
+        
+        .venue-tag {
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .home-tag { background: #059669; color: white; }
+        .away-tag { background: #dc2626; color: white; }
+
+        /* En Alt İmzası */
+        footer {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #94a3b8;
+            font-size: 13px;
+            font-style: italic;
+            letter-spacing: 0.5px;
+        }
+
+        footer span {
+            color: var(--gs-yellow);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Üst Kayan Yazı -->
+    <div class="ticker-wrap">
+        <div class="ticker">
+            🔴🟡 DURSUN ÖZBEK TRANSFERLER NEREDE?? • ŞAMPİYONLAR LİGİ YENİ FORMAT KURA ODASI • HEDEF 25 • CİMBOM DÜNYAYA HÜKMEDİYOR 🟡🔴
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="main-content">
+            <header>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Galatasaray_Sports_Club_Logo.svg/1200px-Galatasaray_Sports_Club_Logo.svg.png" alt="GS Logo">
+                <h1>Galatasaray Kura Odası</h1>
+                <div class="room-tag">2026/2027 Sezonu Simülasyonu</div>
+            </header>
+
+            <div class="controls">
+                <button id="drawBtn" onclick="startDrawProcess()">Kariştir & Kura Çek</button>
+                
+                <!-- Animasyon Topu -->
+                <div id="ballAnimationArea">
+                    <div class="ucl-ball" id="uclBall"></div>
+                </div>
+
+                <button id="saveBtn" class="btn-save" onclick="saveAsImage()" style="display:none;">Kurayı Telefona Görsel Olarak İndir</button>
+            </div>
+
+            <!-- Sonuç Tablosu -->
+            <div id="captureArea">
+                <div class="header-box">
+                    <h2>Galatasaray UCL Rakipleri</h2>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/UEFA_Champions_Stitching.svg/1024px-UEFA_Champions_Stitching.svg.png" alt="UCL" class="table-logo">
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Torba</th>
+                            <th>Rakip Takım</th>
+                            <th>Maç Yeri</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- JS ile dolacak -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <footer>
+            <span>GSHD</span> iftiharla sunar...
+        </footer>
+    </div>
+
+<script>
+    const pots = {
+        pot1: ["Real Madrid (İspanya)", "Manchester City (İngiltere)", "Bayern Munich (Almanya)", "Paris Saint-Germain (Fransa)", "Inter Milan (İtalya)", "Liverpool (İngiltere)", "Barcelona (İspanya)", "Borussia Dortmund (Almanya)", "Leipzig (Almanya)"],
+        pot2: ["Bayer Leverkusen (Almanya)", "Atlético Madrid (İspanya)", "Atalanta (İtalya)", "Juventus (İtalya)", "Benfica (Portekiz)", "Arsenal (İngiltere)", "Club Brugge (Belçika)", "Shakhtar Donetsk (Ukrayna)", "Villarreal (İspanya)"],
+        pot3: ["AC Milan (İtalya)", "Feyenoord (Hollanda)", "Sporting CP (Portekiz)", "PSV Eindhoven (Hollanda)", "Dinamo Zagreb (Hırvatistan)", "Salzburg (Avusturya)", "Lille (Fransa)", "Crvena zvezda (Sırbistan)", "Young Boys (İsviçre)"],
+        pot4: ["Celtic (İskoçya)", "AS Monaco (Fransa)", "Aston Villa (İngiltere)", "Bologna (İtalya)", "Girona (İspanya)", "Stuttgart (Almanya)", "Sturm Graz (Avusturya)", "Sparta Prag (Çekya)"]
+    };
+
+    function shuffle(array) {
+        const arr = [...array];
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    function startDrawProcess() {
+        const btnDraw = document.getElementById('drawBtn');
+        const btnSave = document.getElementById('saveBtn');
+        const captureArea = document.getElementById('captureArea');
+        const ball = document.getElementById('uclBall');
+
+        btnDraw.disabled = true;
+        btnSave.style.display = 'none';
+        captureArea.classList.remove('show');
+
+        // Top animasyonunu tetikle
+        ball.classList.remove('rolling');
+        void ball.offsetWidth; // Reflow
+        ball.classList.add('rolling');
+
+        // 2 saniye animasyon süresi bitince kura sonuçlarını göster
+        setTimeout(() => {
+            generateDrawResults();
+            captureArea.classList.add('show');
+            btnSave.style.display = 'block';
+            btnDraw.disabled = false;
+        }, 2000);
+    }
+
+    function generateDrawResults() {
+        let selectedOpponents = [];
+
+        for (let i = 1; i <= 4; i++) {
+            let shuffledPot = shuffle([...pots['pot' + i]]);
+            let chosen = shuffledPot.slice(0, 2);
+            
+            chosen.forEach((opp, index) => {
+                let venue = (index === 0) ? "İç Saha" : "Deplasman";
+                selectedOpponents.push({
+                    pot: `Torba ${i}`,
+                    team: opp,
+                    venue: venue
+                });
+            });
+        }
+
+        let tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+
+        selectedOpponents.forEach(item => {
+            let venueClass = item.venue === "İç Saha" ? "home-tag" : "away-tag";
+            tbody.innerHTML += `
+                <tr>
+                    <td class="td-pot">${item.pot}</td>
+                    <td class="td-team">${item.team}</td>
+                    <td><span class="venue-tag ${venueClass}">${item.venue}</span></td>
+                </tr>
+            `;
+        });
+    }
+
+    function saveAsImage() {
+        const captureElement = document.getElementById('captureArea');
+
+        html2canvas(captureElement, {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: '#0b0f19'
+        }).then(canvas => {
+            canvas.toBlob(function(blob) {
+                let link = document.createElement('a');
+                link.download = 'gshd_galatasaray_ucl_kura.png';
+                link.href = URL.createObjectURL(blob);
+                link.click();
+                setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+            }, 'image/png');
+        }).catch(err => {
+            alert('Görsel kaydedilemedi: ' + err);
+        });
+    }
+</script>
+
+</body>
+</html>
