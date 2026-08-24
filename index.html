@@ -11,7 +11,7 @@
             --gs-red: #a30000;
             --gs-yellow: #fdb913;
             --bg-color: #0b0f19;
-            --card-bg: #151c2c;
+            --card-bg: #121824;
             --text-color: #f8fafc;
             --gold: #ffd700;
         }
@@ -31,17 +31,16 @@
             overflow-x: hidden;
         }
 
-        /* Üst Kayan Yazı Alanı (Ticker) */
+        /* Üst Kayan Yazı */
         .ticker-wrap {
             width: 100%;
             background: linear-gradient(90deg, var(--gs-red), #500);
             border-bottom: 2px solid var(--gs-yellow);
             color: var(--gs-yellow);
             font-weight: bold;
-            font-size: 14px;
+            font-size: 13px;
             overflow: hidden;
             white-space: nowrap;
-            box-sizing: border-box;
             padding: 8px 0;
             box-shadow: 0 4px 10px rgba(163,0,0,0.5);
             letter-spacing: 1px;
@@ -59,98 +58,82 @@
         }
 
         .container {
-            max-width: 650px;
+            max-width: 600px;
             width: 100%;
             text-align: center;
-            padding: 20px;
+            padding: 15px;
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
-        .main-content {
-            width: 100%;
-        }
-
         header img {
-            height: 75px;
+            height: 70px;
             margin-bottom: 5px;
             filter: drop-shadow(0 0 12px rgba(253, 185, 19, 0.6));
         }
 
         h1 {
             color: var(--gs-yellow);
-            font-size: 22px;
-            margin: 0 0 5px 0;
+            font-size: 20px;
+            margin: 0;
             text-transform: uppercase;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
         }
 
         .room-tag {
-            background: rgba(163, 0, 0, 0.4);
+            background: rgba(163, 0, 0, 0.3);
             border: 1px solid var(--gs-yellow);
             color: var(--gs-yellow);
-            padding: 4px 12px;
+            padding: 3px 10px;
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: bold;
             display: inline-block;
-            margin-bottom: 20px;
+            margin: 8px 0 15px 0;
         }
 
         /* Kontroller */
         .controls {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
 
         button {
             background: linear-gradient(45deg, var(--gs-red), #5a0000);
             color: white;
             border: 2px solid var(--gs-yellow);
-            padding: 15px;
+            padding: 14px;
             font-size: 15px;
             font-weight: bold;
-            border-radius: 12px;
+            border-radius: 10px;
             cursor: pointer;
             width: 100%;
             transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: 1px;
             box-shadow: 0 4px 15px rgba(163,0,0,0.4);
         }
 
         button:hover {
             background: linear-gradient(45deg, var(--gs-yellow), #d49700);
             color: black;
-            transform: translateY(-2px);
-        }
-
-        button:active {
-            transform: translateY(1px);
         }
 
         button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            transform: none;
         }
 
         .btn-save {
             background: linear-gradient(45deg, #16a34a, #0d5c2b) !important;
             border-color: #4ade80 !important;
-            color: white !important;
-        }
-        .btn-save:hover {
-            background: linear-gradient(45deg, #15803d, #09401e) !important;
         }
 
-        /* Top Yuvarlanma Alanı */
+        /* Gelişmiş UCL Top Animasyon Alanı */
         #ballAnimationArea {
-            height: 70px;
+            height: 60px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -159,97 +142,83 @@
         }
 
         .ucl-ball {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/UEFA_Champions_Stitching.svg/1024px-UEFA_Champions_Stitching.svg.png') center/cover no-repeat;
             border-radius: 50%;
             position: absolute;
-            left: -70px;
-            box-shadow: 0 0 15px rgba(253, 185, 19, 0.6);
+            left: -60px;
+            filter: drop-shadow(0 0 10px rgba(253, 185, 19, 0.8));
         }
 
-        @keyframes rollIn {
-            0% { left: -70px; transform: rotate(0deg); }
-            40% { left: calc(50% - 25px); transform: rotate(720deg); }
-            70% { left: calc(50% - 25px); transform: rotate(720deg) scale(1.1); }
-            100% { left: calc(50% - 25px); transform: rotate(1080deg) scale(0); opacity: 0; }
+        @keyframes rollInAdvanced {
+            0% { left: -60px; transform: rotate(0deg) scale(0.8); }
+            50% { left: calc(50% - 22px); transform: rotate(720deg) scale(1.2); }
+            75% { left: calc(50% - 22px); transform: rotate(800deg) scale(1); }
+            100% { left: calc(50% - 22px); transform: rotate(1080deg) scale(0); opacity: 0; }
         }
 
         .rolling {
-            animation: rollIn 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            animation: rollInAdvanced 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
 
-        /* Sonuç Tablosu Alanı */
+        /* İNDİRİLECEK KUSURSUZ KART (CAPTURE AREA) */
         #captureArea {
-            background: linear-gradient(145deg, #151c2c, #090d16);
-            border: 3px solid var(--gs-yellow);
+            background: linear-gradient(145deg, #121824, #070a12);
+            border: 3px solid var(--gold);
             border-radius: 16px;
             padding: 20px;
-            margin-top: 5px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+            margin-top: 10px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
             text-align: left;
             display: none;
-            opacity: 0;
-            transform: scale(0.95);
-            transition: all 0.4s ease;
             position: relative;
         }
 
-        #captureArea.show {
-            display: block;
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .header-box {
+        .card-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             border-bottom: 2px solid var(--gs-red);
             padding-bottom: 12px;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
 
-        .header-box h2 {
-            color: var(--gs-yellow);
+        .card-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-header-left img {
+            height: 32px;
+        }
+
+        .card-header h2 {
+            color: var(--gold);
             margin: 0;
-            font-size: 18px;
+            font-size: 16px;
             text-transform: uppercase;
         }
 
-        .table-logo {
-            height: 35px;
+        .ucl-logo-small {
+            height: 28px;
         }
 
+        /* Şık Tablo Tasarımı */
         table {
             width: 100%;
             border-collapse: separate;
-            border-spacing: 0 6px;
+            border-spacing: 0 8px;
         }
 
-        tr {
-            background: rgba(255,255,255,0.04);
-            border-radius: 6px;
-            opacity: 0;
-            transform: translateX(-15px);
-            animation: slideIn 0.4s forwards;
+        tr.table-row {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
         }
-
-        @keyframes slideIn {
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        tr:nth-child(1) { animation-delay: 0.05s; }
-        tr:nth-child(2) { animation-delay: 0.1s; }
-        tr:nth-child(3) { animation-delay: 0.15s; }
-        tr:nth-child(4) { animation-delay: 0.2s; }
-        tr:nth-child(5) { animation-delay: 0.25s; }
-        tr:nth-child(6) { animation-delay: 0.3s; }
-        tr:nth-child(7) { animation-delay: 0.35s; }
-        tr:nth-child(8) { animation-delay: 0.4s; }
 
         th, td {
-            padding: 10px 8px;
+            padding: 10px;
             text-align: left;
             font-size: 13px;
         }
@@ -259,33 +228,62 @@
             font-size: 11px;
             text-transform: uppercase;
             border-bottom: 1px solid rgba(253, 185, 19, 0.2);
+            padding-bottom: 5px;
         }
 
-        td:first-child { border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
-        td:last-child { border-top-right-radius: 6px; border-bottom-right-radius: 6px; }
-
-        .td-pot { font-weight: bold; color: var(--gold); width: 60px; }
-        .td-team { font-weight: 600; }
+        .td-pot { 
+            font-weight: bold; 
+            color: var(--gold); 
+            width: 65px; 
+            border-top-left-radius: 8px; 
+            border-bottom-left-radius: 8px; 
+        }
         
+        .td-team { 
+            font-weight: 600; 
+            color: #ffffff;
+        }
+        
+        .td-venue {
+            text-align: right;
+            border-top-right-radius: 8px; 
+            border-bottom-right-radius: 8px;
+        }
+
         .venue-tag {
-            padding: 3px 6px;
-            border-radius: 4px;
+            padding: 4px 8px;
+            border-radius: 6px;
             font-size: 10px;
             font-weight: bold;
             text-transform: uppercase;
+            display: inline-block;
         }
-        .home-tag { background: #059669; color: white; }
-        .away-tag { background: #dc2626; color: white; }
+        .home-tag { background: #059669; color: white; border: 1px solid #10b981; }
+        .away-tag { background: #dc2626; color: white; border: 1px solid #ef4444; }
 
-        /* En Alt İmzası */
-        footer {
-            margin-top: 30px;
-            padding-top: 15px;
+        .card-footer {
+            margin-top: 15px;
             border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .card-footer span {
+            color: var(--gs-yellow);
+            font-weight: bold;
+        }
+
+        /* Alt İmza */
+        footer {
+            margin-top: 20px;
+            padding-top: 10px;
             color: #94a3b8;
             font-size: 13px;
             font-style: italic;
-            letter-spacing: 0.5px;
         }
 
         footer span {
@@ -299,7 +297,7 @@
     <!-- Üst Kayan Yazı -->
     <div class="ticker-wrap">
         <div class="ticker">
-            🔴🟡 DURSUN ÖZBEK TRANSFERLER NEREDE?? • ŞAMPİYONLAR LİGİ YENİ FORMAT KURA ODASI • HEDEF 25 • CİMBOM DÜNYAYA HÜKMEDİYOR 🟡🔴
+            🔴🟡 DURSUN ÖZBEK TRANSFERLER NEREDE?? • SABRIMIZ TAŞIYOR  DURSUN ÖZBEK İSTİFA 🟡🔴
         </div>
     </div>
 
@@ -308,7 +306,7 @@
             <header>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Galatasaray_Sports_Club_Logo.svg/1200px-Galatasaray_Sports_Club_Logo.svg.png" alt="GS Logo">
                 <h1>Galatasaray Kura Odası</h1>
-                <div class="room-tag">2026/2027 Sezonu Simülasyonu</div>
+                <div class="room-tag">2026/2027 Sezonu Resmi Simülasyonu</div>
             </header>
 
             <div class="controls">
@@ -322,24 +320,31 @@
                 <button id="saveBtn" class="btn-save" onclick="saveAsImage()" style="display:none;">Kurayı Telefona Görsel Olarak İndir</button>
             </div>
 
-            <!-- Sonuç Tablosu -->
+            <!-- EKSİKSİZ İNDİRİLECEK ŞIK TABLO KARTI -->
             <div id="captureArea">
-                <div class="header-box">
-                    <h2>Galatasaray UCL Rakipleri</h2>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/UEFA_Champions_Stitching.svg/1024px-UEFA_Champions_Stitching.svg.png" alt="UCL" class="table-logo">
+                <div class="card-header">
+                    <div class="card-header-left">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Galatasaray_Sports_Club_Logo.svg/1200px-Galatasaray_Sports_Club_Logo.svg.png" alt="GS">
+                        <h2>Galatasaray UCL Rakipleri</h2>
+                    </div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/UEFA_Champions_Stitching.svg/1024px-UEFA_Champions_Stitching.svg.png" alt="UCL" class="ucl-logo-small">
                 </div>
                 <table>
                     <thead>
                         <tr>
                             <th>Torba</th>
                             <th>Rakip Takım</th>
-                            <th>Maç Yeri</th>
+                            <th style="text-align: right;">Maç Yeri</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
                         <!-- JS ile dolacak -->
                     </tbody>
                 </table>
+                <div class="card-footer">
+                    <span>2026/2027 Sezonu Lig Aşaması</span>
+                    <div>GSHD İftiharla Sunar</div>
+                </div>
             </div>
         </div>
 
@@ -373,20 +378,19 @@
 
         btnDraw.disabled = true;
         btnSave.style.display = 'none';
-        captureArea.classList.remove('show');
+        captureArea.style.display = 'none';
 
-        // Top animasyonunu tetikle
+        // Top animasyonu
         ball.classList.remove('rolling');
-        void ball.offsetWidth; // Reflow
+        void ball.offsetWidth;
         ball.classList.add('rolling');
 
-        // 2 saniye animasyon süresi bitince kura sonuçlarını göster
         setTimeout(() => {
             generateDrawResults();
-            captureArea.classList.add('show');
+            captureArea.style.display = 'block';
             btnSave.style.display = 'block';
             btnDraw.disabled = false;
-        }, 2000);
+        }, 1800);
     }
 
     function generateDrawResults() {
@@ -412,10 +416,10 @@
         selectedOpponents.forEach(item => {
             let venueClass = item.venue === "İç Saha" ? "home-tag" : "away-tag";
             tbody.innerHTML += `
-                <tr>
+                <tr class="table-row">
                     <td class="td-pot">${item.pot}</td>
                     <td class="td-team">${item.team}</td>
-                    <td><span class="venue-tag ${venueClass}">${item.venue}</span></td>
+                    <td class="td-venue"><span class="venue-tag ${venueClass}">${item.venue}</span></td>
                 </tr>
             `;
         });
