@@ -138,6 +138,43 @@
             border-color: #4ade80 !important;
         }
 
+        /* DAHA BELİRGİN VE Çarpıcı Ekran Ortası Esprili Uyarı Pop-up'ı */
+        #espriliPopup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.7);
+            background: linear-gradient(135deg, #7f1d1d, #450a0a);
+            color: var(--gs-yellow);
+            border: 3px solid var(--gs-yellow);
+            padding: 25px 30px;
+            border-radius: 20px;
+            font-weight: 900;
+            font-size: 18px;
+            text-transform: uppercase;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.9), 0 0 20px rgba(253, 185, 19, 0.5);
+            z-index: 9999;
+            text-align: center;
+            max-width: 85%;
+            width: 380px;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        #espriliPopup.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .popup-title {
+            font-size: 12px;
+            color: #f8fafc;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
         /* Gelişmiş UCL Top Animasyon Alanı */
         #ballAnimationArea {
             height: 60px;
@@ -180,28 +217,6 @@
             text-align: left;
             display: none;
             position: relative;
-        }
-
-        /* Tablonun Hemen Üzerindeki Esprili Mesaj Alanı */
-        #espriliBanner {
-            background: linear-gradient(135deg, var(--gs-red), #400);
-            color: var(--gs-yellow);
-            border: 2px dashed var(--gs-yellow);
-            padding: 10px 15px;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 13px;
-            text-transform: uppercase;
-            text-align: center;
-            margin-bottom: 12px;
-            display: none;
-            box-shadow: 0 4px 15px rgba(163,0,0,0.6);
-            animation: fadeInScale 0.3s ease-out forwards;
-        }
-
-        @keyframes fadeInScale {
-            0% { opacity: 0; transform: scale(0.95); }
-            100% { opacity: 1; transform: scale(1); }
         }
 
         .card-header {
@@ -324,6 +339,12 @@
 </head>
 <body>
 
+    <!-- EKRAN ORTASI BELİRGİN ESPRİLİ UYARI POPUP -->
+    <div id="espriliPopup">
+        <div class="popup-title">📌 KURA YORUMU</div>
+        <div id="popupText"></div>
+    </div>
+
     <!-- Üst Kayan Yazı -->
     <div class="ticker-wrap">
         <div class="ticker">
@@ -355,9 +376,6 @@
 
             <!-- EKSİKSİZ İNDİRİLECEK ŞIK TABLO KARTI -->
             <div id="captureArea">
-                <!-- Tablonun hemen üzerinde rastgele çıkacak esprili alan -->
-                <div id="espriliBanner"></div>
-
                 <div class="card-header">
                     <div class="card-header-left">
                         <img src="https://images.seeklogo.com/logo-png/62/1/galatasaray-5-yildizli-sari-logo-png_seeklogo-620427.png" alt="GS">
@@ -385,17 +403,24 @@
         </div>
 
         <footer>
-            <span>GSHD</span> iftiharla sunar...
+            <span>GSHD</span> 2021
         </footer>
     </div>
 
 <script>
-    const pots = {
-        pot1: ["Real Madrid (İspanya)", "Manchester City (İngiltere)", "Bayern Munich (Almanya)", "Paris Saint-Germain (Fransa)", "Inter Milan (İtalya)", "Liverpool (İngiltere)", "Barcelona (İspanya)", "Borussia Dortmund (Almanya)", "Leipzig (Almanya)"],
-        pot2: ["Bayer Leverkusen (Almanya)", "Atlético Madrid (İspanya)", "Atalanta (İtalya)", "Juventus (İtalya)", "Benfica (Portekiz)", "Arsenal (İngiltere)", "Club Brugge (Belçika)", "Shakhtar Donetsk (Ukrayna)", "Villarreal (İspanya)"],
-        pot3: ["AC Milan (İtalya)", "Feyenoord (Hollanda)", "Sporting CP (Portekiz)", "PSV Eindhoven (Hollanda)", "Dinamo Zagreb (Hırvatistan)", "Salzburg (Avusturya)", "Lille (Fransa)", "Crvena zvezda (Sırbistan)", "Young Boys (İsviçre)"],
-        pot4: ["Celtic (İskoçya)", "AS Monaco (Fransa)", "Aston Villa (İngiltere)", "Bologna (İtalya)", "Girona (İspanya)", "Stuttgart (Almanya)", "Sturm Graz (Avusturya)", "Sparta Prag (Çekya)"]
-    };
+    const teamPool = [
+        "Manchester City", "Arsenal", "Manchester United", "Aston Villa", 
+        "Liverpool", "Barcelona", "Real Madrid", "Atletico Madrid", 
+        "Villarreal", "Real Betis", "Inter", "Napoli", "Roma", "Como", 
+        "Bayern Münih", "Borussia Dortmund", "RB Leipzig", "VfB Stuttgart", 
+        "Paris Saint-Germain", "RC Lens", "Lille", "PSV Eindhoven", 
+        "Feyenoord", "FC Porto", "Sporting CP", "Galatasaray", 
+        "Shakhtar Donetsk", "Slavia Prag", "Club Brugge", 
+        "Fenerbahçe – Lyon galibi", "Celtic – LASK Linz galibi", 
+        "NEC Nijmegen – Bodø/Glimt galibi", "Hapoel Be'er Sheva – Sabah FK galibi", 
+        "Slovan Bratislava – Celje galibi", "Dinamo Zagreb – VikingLevski galibi", 
+        "Sofya – AEK Atina galibi"
+    ];
 
     const espriliMesajlar = [
         "Hay çekeceğin kuraya hocam..",
@@ -415,24 +440,29 @@
         return arr;
     }
 
-    function showRandomBanner() {
-        const banner = document.getElementById('espriliBanner');
+    function showPopupMessage() {
+        const popup = document.getElementById('espriliPopup');
+        const textDiv = document.getElementById('popupText');
         const randomIndex = Math.floor(Math.random() * espriliMesajlar.length);
-        banner.innerText = espriliMesajlar[randomIndex];
-        banner.style.display = 'block';
+        
+        textDiv.innerText = espriliMesajlar[randomIndex];
+        popup.classList.add('show');
+
+        // 4 saniye sonra otomatik kapansın
+        setTimeout(() => {
+            popup.classList.remove('show');
+        }, 4000);
     }
 
     function startDrawProcess() {
         const btnDraw = document.getElementById('drawBtn');
         const btnSave = document.getElementById('saveBtn');
         const captureArea = document.getElementById('captureArea');
-        const banner = document.getElementById('espriliBanner');
         const ball = document.getElementById('uclBall');
 
         btnDraw.disabled = true;
         btnSave.style.display = 'none';
         captureArea.style.display = 'none';
-        banner.style.display = 'none';
 
         // Top animasyonu
         ball.classList.remove('rolling');
@@ -441,34 +471,37 @@
 
         setTimeout(() => {
             generateDrawResults();
-            showRandomBanner(); // Tablonun hemen üzerinde esprili mesajı göster
             captureArea.style.display = 'block';
             btnSave.style.display = 'block';
             btnDraw.disabled = false;
+
+            // Ekranın ortasında belirgin uyarıyı fırlat
+            showPopupMessage();
         }, 1800);
     }
 
     function generateDrawResults() {
-        let selectedOpponents = [];
-
-        for (let i = 1; i <= 4; i++) {
-            let shuffledPot = shuffle([...pots['pot' + i]]);
-            let chosen = shuffledPot.slice(0, 2);
-            
-            chosen.forEach((opp, index) => {
-                let venue = (index === 0) ? "İç Saha" : "Deplasman";
-                selectedOpponents.push({
-                    pot: `Torba ${i}`,
-                    team: opp,
-                    venue: venue
-                });
-            });
-        }
+        // Galatasaray hariç diğer takımları filtrele ve karıştır
+        let availableTeams = teamPool.filter(t => t !== "Galatasaray");
+        let shuffled = shuffle(availableTeams);
+        
+        // Yeni formata göre toplam 8 rakip seçelim (Farklı torbaları simüle etmek için rastgele 8 farklı takım)
+        let selectedOpponents = shuffled.slice(0, 8);
+        
+        let formattedResults = selectedOpponents.map((team, index) => {
+            let potNo = Math.floor(index / 2) + 1;
+            let venue = (index % 2 === 0) ? "İç Saha" : "Deplasman";
+            return {
+                pot: `Torba ${potNo}`,
+                team: team,
+                venue: venue
+            };
+        });
 
         let tbody = document.getElementById('tableBody');
         tbody.innerHTML = '';
 
-        selectedOpponents.forEach(item => {
+        formattedResults.forEach(item => {
             let venueClass = item.venue === "İç Saha" ? "home-tag" : "away-tag";
             tbody.innerHTML += `
                 <tr class="table-row">
