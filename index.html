@@ -138,31 +138,6 @@
             border-color: #4ade80 !important;
         }
 
-        /* Esprili Uyarı Balonu (Popup Toast) */
-        #espriliPopup {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-100px);
-            background: linear-gradient(135deg, var(--gs-red), #300);
-            color: var(--gs-yellow);
-            border: 2px solid var(--gs-yellow);
-            padding: 12px 22px;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 14px;
-            text-transform: uppercase;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-            z-index: 1000;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-align: center;
-            max-width: 90%;
-        }
-
-        #espriliPopup.show {
-            transform: translateX(-50%) translateY(0);
-        }
-
         /* Gelişmiş UCL Top Animasyon Alanı */
         #ballAnimationArea {
             height: 60px;
@@ -176,7 +151,7 @@
         .ucl-ball {
             width: 45px;
             height: 45px;
-            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/UEFA_Champions_Stitching.svg/1024px-UEFA_Champions_Stitching.svg.png') center/cover no-repeat;
+            background: url('https://images.seeklogo.com/logo-png/14/1/uefa-champions-league-logo-png_seeklogo-144159.png') center/cover no-repeat;
             border-radius: 50%;
             position: absolute;
             left: -60px;
@@ -207,6 +182,28 @@
             position: relative;
         }
 
+        /* Tablonun Hemen Üzerindeki Esprili Mesaj Alanı */
+        #espriliBanner {
+            background: linear-gradient(135deg, var(--gs-red), #400);
+            color: var(--gs-yellow);
+            border: 2px dashed var(--gs-yellow);
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 13px;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 12px;
+            display: none;
+            box-shadow: 0 4px 15px rgba(163,0,0,0.6);
+            animation: fadeInScale 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
         .card-header {
             display: flex;
             align-items: center;
@@ -223,18 +220,18 @@
         }
 
         .card-header-left img {
-            height: 32px;
+            height: 35px;
         }
 
         .card-header h2 {
             color: var(--gold);
             margin: 0;
-            font-size: 15px;
+            font-size: 14px;
             text-transform: uppercase;
         }
 
         .ucl-logo-small {
-            height: 32px;
+            height: 30px;
             filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
         }
 
@@ -327,13 +324,10 @@
 </head>
 <body>
 
-    <!-- Esprili Uyarı Balonu -->
-    <div id="espriliPopup"></div>
-
     <!-- Üst Kayan Yazı -->
     <div class="ticker-wrap">
         <div class="ticker">
-            🔴🟡 DURSUN ÖZBEK TRANSFERLER NEREDE?? • SABRIMIZ TAŞIYOR • HEDEF 27  🟡🔴
+            🔴🟡 DURSUN ÖZBEK TRANSFERLER NEREDE?? • SABRIMIZ TAŞIYOR• HEDEF 27 • HEDEF AVRUPA 🟡🔴
         </div>
     </div>
 
@@ -341,7 +335,7 @@
         <div class="main-content">
             <header>
                 <div class="brand-header">
-                    <img src="https://images.seeklogo.com/logo-png/62/1/galatasaray-5-yildizli-sari-logo-png_seeklogo-620427.png" alt="GS Logo">
+                    <img src="https://images.seeklogo.com/logo-png/62/1/galatasaray-5-yildizli-sari-logo-png_seeklogo-620427.png" alt="GS 5 Yıldızlı Logo">
                     <img src="https://images.seeklogo.com/logo-png/14/1/uefa-champions-league-logo-png_seeklogo-144159.png" alt="UCL Logo">
                 </div>
                 <h1>Galatasaray Kura Odası</h1>
@@ -349,7 +343,7 @@
             </header>
 
             <div class="controls">
-                <button id="drawBtn" onclick="startDrawProcess()">Karştır & Kura Çek</button>
+                <button id="drawBtn" onclick="startDrawProcess()">Karıştır & Kura Çek</button>
                 
                 <!-- Animasyon Topu -->
                 <div id="ballAnimationArea">
@@ -361,12 +355,15 @@
 
             <!-- EKSİKSİZ İNDİRİLECEK ŞIK TABLO KARTI -->
             <div id="captureArea">
+                <!-- Tablonun hemen üzerinde rastgele çıkacak esprili alan -->
+                <div id="espriliBanner"></div>
+
                 <div class="card-header">
                     <div class="card-header-left">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Galatasaray_Sports_Club_Logo.svg/1200px-Galatasaray_Sports_Club_Logo.svg.png" alt="GS">
+                        <img src="https://images.seeklogo.com/logo-png/62/1/galatasaray-5-yildizli-sari-logo-png_seeklogo-620427.png" alt="GS">
                         <h2>Galatasaray UCL Rakipleri</h2>
                     </div>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/UEFA_Champions_Stitching.svg/1024px-UEFA_Champions_Stitching.svg.png" alt="UCL" class="ucl-logo-small">
+                    <img src="https://images.seeklogo.com/logo-png/14/1/uefa-champions-league-logo-png_seeklogo-144159.png" alt="UCL" class="ucl-logo-small">
                 </div>
                 <table>
                     <thead>
@@ -388,7 +385,7 @@
         </div>
 
         <footer>
-            <span>omerbasgan</span> GSHD
+            <span>GSHD</span> iftiharla sunar...
         </footer>
     </div>
 
@@ -418,28 +415,24 @@
         return arr;
     }
 
-    function showRandomPopup() {
-        const popup = document.getElementById('espriliPopup');
+    function showRandomBanner() {
+        const banner = document.getElementById('espriliBanner');
         const randomIndex = Math.floor(Math.random() * espriliMesajlar.length);
-        popup.innerText = espriliMesajlar[randomIndex];
-        
-        popup.classList.add('show');
-
-        // 3.5 saniye sonra otomatik kapansın
-        setTimeout(() => {
-            popup.classList.remove('show');
-        }, 3500);
+        banner.innerText = espriliMesajlar[randomIndex];
+        banner.style.display = 'block';
     }
 
     function startDrawProcess() {
         const btnDraw = document.getElementById('drawBtn');
         const btnSave = document.getElementById('saveBtn');
         const captureArea = document.getElementById('captureArea');
+        const banner = document.getElementById('espriliBanner');
         const ball = document.getElementById('uclBall');
 
         btnDraw.disabled = true;
         btnSave.style.display = 'none';
         captureArea.style.display = 'none';
+        banner.style.display = 'none';
 
         // Top animasyonu
         ball.classList.remove('rolling');
@@ -448,12 +441,10 @@
 
         setTimeout(() => {
             generateDrawResults();
+            showRandomBanner(); // Tablonun hemen üzerinde esprili mesajı göster
             captureArea.style.display = 'block';
             btnSave.style.display = 'block';
             btnDraw.disabled = false;
-
-            // Kura bitince esprili uyarıyı göster
-            showRandomPopup();
         }, 1800);
     }
 
