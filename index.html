@@ -138,6 +138,31 @@
             border-color: #4ade80 !important;
         }
 
+        /* Esprili Uyarı Balonu (Popup Toast) */
+        #espriliPopup {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: linear-gradient(135deg, var(--gs-red), #300);
+            color: var(--gs-yellow);
+            border: 2px solid var(--gs-yellow);
+            padding: 12px 22px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            z-index: 1000;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            max-width: 90%;
+        }
+
+        #espriliPopup.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
         /* Gelişmiş UCL Top Animasyon Alanı */
         #ballAnimationArea {
             height: 60px;
@@ -302,10 +327,13 @@
 </head>
 <body>
 
+    <!-- Esprili Uyarı Balonu -->
+    <div id="espriliPopup"></div>
+
     <!-- Üst Kayan Yazı -->
     <div class="ticker-wrap">
         <div class="ticker">
-            🔴🟡 DURSUN ÖZBEK TRANSFERLER NEREDE?? • ŞAMPİYONLAR LİGİ YENİ FORMAT KURA ODASI • HEDEF 25 • CİMBOM DÜNYAYA HÜKMEDİYOR 🟡🔴
+            🔴🟡 DURSUN ÖZBEK TRANSFERLER NEREDE?? • SABRIMIZ TAŞIYOR • HEDEF 27  🟡🔴
         </div>
     </div>
 
@@ -313,15 +341,15 @@
         <div class="main-content">
             <header>
                 <div class="brand-header">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Galatasaray_Sports_Club_Logo.svg/1200px-Galatasaray_Sports_Club_Logo.svg.png" alt="GS Logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/UEFA_Champions_Stitching.svg/1024px-UEFA_Champions_Stitching.svg.png" alt="UCL Logo">
+                    <img src="https://images.seeklogo.com/logo-png/62/1/galatasaray-5-yildizli-sari-logo-png_seeklogo-620427.png" alt="GS Logo">
+                    <img src="https://images.seeklogo.com/logo-png/14/1/uefa-champions-league-logo-png_seeklogo-144159.png" alt="UCL Logo">
                 </div>
                 <h1>Galatasaray Kura Odası</h1>
                 <div class="room-tag">2026/2027 Sezonu Resmi Simülasyonu</div>
             </header>
 
             <div class="controls">
-                <button id="drawBtn" onclick="startDrawProcess()">Kariştir & Kura Çek</button>
+                <button id="drawBtn" onclick="startDrawProcess()">Karştır & Kura Çek</button>
                 
                 <!-- Animasyon Topu -->
                 <div id="ballAnimationArea">
@@ -338,7 +366,6 @@
                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Galatasaray_Sports_Club_Logo.svg/1200px-Galatasaray_Sports_Club_Logo.svg.png" alt="GS">
                         <h2>Galatasaray UCL Rakipleri</h2>
                     </div>
-                    <!-- UCL Logosu Kartın Sağ Üst Köşesinde -->
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/UEFA_Champions_Stitching.svg/1024px-UEFA_Champions_Stitching.svg.png" alt="UCL" class="ucl-logo-small">
                 </div>
                 <table>
@@ -361,7 +388,7 @@
         </div>
 
         <footer>
-            <span>GSHD</span> iftiharla sunar...
+            <span>omerbasgan</span> GSHD
         </footer>
     </div>
 
@@ -373,6 +400,15 @@
         pot4: ["Celtic (İskoçya)", "AS Monaco (Fransa)", "Aston Villa (İngiltere)", "Bologna (İtalya)", "Girona (İspanya)", "Stuttgart (Almanya)", "Sturm Graz (Avusturya)", "Sparta Prag (Çekya)"]
     };
 
+    const espriliMesajlar = [
+        "Hay çekeceğin kuraya hocam..",
+        "Böyle kura çekilmez yalnız..",
+        "Dost musun düşman mı? Hemen yeni kura çek hocam",
+        "İyiki kurayı sen çekmiyorsun hocam",
+        "BOĞULACAKSAK BÜYÜK DENİZDE BOĞULALIM",
+        "Gayet iyi, severiz..."
+    ];
+
     function shuffle(array) {
         const arr = [...array];
         for (let i = arr.length - 1; i > 0; i--) {
@@ -380,6 +416,19 @@
             [arr[i], arr[j]] = [arr[j], arr[i]];
         }
         return arr;
+    }
+
+    function showRandomPopup() {
+        const popup = document.getElementById('espriliPopup');
+        const randomIndex = Math.floor(Math.random() * espriliMesajlar.length);
+        popup.innerText = espriliMesajlar[randomIndex];
+        
+        popup.classList.add('show');
+
+        // 3.5 saniye sonra otomatik kapansın
+        setTimeout(() => {
+            popup.classList.remove('show');
+        }, 3500);
     }
 
     function startDrawProcess() {
@@ -402,6 +451,9 @@
             captureArea.style.display = 'block';
             btnSave.style.display = 'block';
             btnDraw.disabled = false;
+
+            // Kura bitince esprili uyarıyı göster
+            showRandomPopup();
         }, 1800);
     }
 
